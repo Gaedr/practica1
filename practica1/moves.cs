@@ -9,13 +9,12 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
     
     // el margenErrorSup es el margen de error de la aplicacion al comparar la postura del usuario superiormente
     // el margenErrorInf es el margen de error de la aplicacion al comparar la postura del usuario inferiormente
-    public class moves{
+    public class Moves{
         private float margenErrorSup, margenErrorInf;
         private posturas posturaActual;
 
         //enum de las distintas posturas que realizara el usuario
-        public enum posturas
-        {
+        public enum posturas{
             Mal,            //la postura es erronea
             Inicial,        //el usuario esta en la postura inicial
             Brazos_En_Cruz, //el usuario tiene los brazos levantados a la altura de los hombros
@@ -24,7 +23,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
 
         //comenzamos en la fase inicial, reposo
         //el margen de error tanto superior como inferior es del 10%
-        public moves(float sup = 0.1f, float inf = 0.1f){
+        public Moves(float sup = 0.1f, float inf = 0.1f){
             margenErrorSup = sup;
             margenErrorInf = inf;
             posturaActual = posturas.Mal;
