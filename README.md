@@ -55,6 +55,4 @@ A la hora de realizar la aplicación, se ha creado una clase: **"Moves.cs"** en 
 
 ### Errores y aspectos destacados.
 
-### Lecturas recomendadas. ??
-
 ### Bibliografía.
