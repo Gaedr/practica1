@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;*/
 
-namespace Microsoft.Samples.Kinect.SkeletonBasics{
-    
+namespace Microsoft.Samples.Kinect.SkeletonBasics {
+
     // el margenErrorSup es el margen de error de la aplicacion al comparar la postura del usuario superiormente
     // el margenErrorInf es el margen de error de la aplicacion al comparar la postura del usuario inferiormente
-    public class Moves{
+    public class Moves {
         private float margenErrorSup, margenErrorInf;
         private posturas posturaActual;
 
         //enum de las distintas posturas que realizara el usuario
-        public enum posturas{
+        public enum posturas {
             Mal,            //la postura es erronea
             Inicial,        //el usuario esta en la postura inicial
             Brazos_En_Cruz, //el usuario tiene los brazos levantados a la altura de los hombros
@@ -23,31 +23,31 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
 
         //comenzamos en la fase inicial, reposo
         //el margen de error tanto superior como inferior es del 10%
-        public Moves(float sup = 0.1f, float inf = 0.1f){
+        public Moves(float sup = 0.1f, float inf = 0.1f) {
             margenErrorSup = sup;
             margenErrorInf = inf;
             posturaActual = posturas.Mal;
         }
 
         //nos devuelve la fase en la que se encuentra el usuario
-        public int getPostura(){
+        public posturas getPostura() {
             return posturaActual;
         }
 
         //metodo con el que actualizamos la postura del usuario
-        public void actualizarPostura(posturas nuevaPostura){
+        public void actualizarPostura(posturas nuevaPostura) {
             posturaActual = nuevaPostura;
         }
 
-        //metodo con el que comparamos si dos partes del cuerpo estan a la misma altura
-        public bool compararCoordenadas(Joint a, Joint b, char coord){
+        //metodo con el que comparamos si dos partes del cuerpo estan alineados en el mismo eje
+        public bool compararCoordenadas(Joint a, Joint b, char coord) {
             bool respuesta = false;
 
             switch (coord) {
                 case X:
                     if (a.Position.X < (b.Position.X * margenErrorSup) && (a.Position.X > (b.Position.X * margenErrorInf)))
                         respuesta = true;
-                        break;
+                    break;
                 case Y:
                     if (a.Position.Y < (b.Position.Y * margenErrorSup) && (a.Position.Y > (b.Position.Y * margenErrorInf)))
                         respuesta = true;
@@ -60,9 +60,9 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
 
             return respuesta;
         }
-        
+
         //comprobamos que el usuario esta en el estado de reposo (con las manos a los lados del cuerpo y hacia abajo)
-        private bool estadoReposo(Skeleton esqueleto){
+        private void estadoReposo(Skeleton esqueleto) {
             //cogemos los puntos de referencia que vamos a usar a la hora de ver la postura del usuario
             Joint hombroI = esqueleto.Joints[JointType.ShoulderLeft];
             Joint codoI = esqueleto.Joints[JointType.ElbowLeft];
@@ -72,36 +72,35 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
             Joint manoD = esqueleto.Joints[JointType.WristRight];
 
             //comprobamos que los hombros estan correctamente alineados
-            if (compararCoordenadas(hombroI, hombroD, "Y")){
+            if (compararCoordenadas(hombroI, hombroD, "Y")) {
                 //comprobamos que los codos estan alineados con los hombros en el eje x
-                if (compararCoordenadas(codoI, hombroI, "X")){
+                if (compararCoordenadas(codoI, hombroI, "X")) {
                     //vemos que esta correcto el otro codo
-                    if (compararCoordenadas(codoD, hombroD, "X")){
+                    if (compararCoordenadas(codoD, hombroD, "X")) {
                         //ahora comprobamos las manos
-                        if (compararCoordenadas(manoI, codoI, "X")){
+                        if (compararCoordenadas(manoI, codoI, "X")) {
                             //comprobamos la ultima mano finalmente
-                            if (compararCoordenadas(manoD, codoD, "X")){
+                            if (compararCoordenadas(manoD, codoD, "X")) {
                                 actualizarPostura(posturas.Inicial);//indicamos que el usuario esta en la postura correcta de inicio
-                                return true;
                             }
-                            else{
-                                return false;
+                            else {
+                                actualizarPostura(posturas.Mal);
                             }
                         }
-                        else{
-                            return false;
+                        else {
+                            actualizarPostura(posturas.Mal);
                         }
                     }
-                    else{
-                        return false;
+                    else {
+                        actualizarPostura(posturas.Mal);
                     }
                 }
-                else{
-                    return false;
+                else {
+                    actualizarPostura(posturas.Mal);
                 }
             }
-            else{
-                return false;
+            else {
+                actualizarPostura(posturas.Mal);
             }
         }
 
@@ -123,19 +122,19 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
             postura pasoPostura = getPostura();
 
             //caso en el que postura=Inicial, podemos comenzar el movimiento
-            switch(pasoPostura) {
+            switch (pasoPostura) {
                 //vamos subiendo los brazos poco a poco
                 case posturas.Inicial:
                     newManoI = esqueleto.Joints[JointType.WristLeft];
                     newManoD = esqueleto.Joints[JointType.WristRight];
-                    
+
                     //comprobamos si el usuario tiene los brazos en cruz
                     if (compararCoordenadas(manoI, codoI, "Y") && compararCoordenadas(codoI, hombroI, "Y")
                         && compararCoordenadas(manoD, codoD, "Y") && compararCoordenadas(codoD, hombroD, "Y"))
                         actualizarPostura(posturas.Brazos_En_Cruz);
                     else {
                         //si no estamos en la segunda parte del movimiento, comprobamos que este en el transito del primero al segundo
-                        if (compararCoordenadas(newManoD, manoD, "X") && compararCoordenadas(newManoI, manoI, "X")){
+                        if (compararCoordenadas(newManoD, manoD, "X") && compararCoordenadas(newManoI, manoI, "X")) {
                             //como esta realizando el movimiento ascendente, actualizamos los valores de las manos
                             manoD = newManoD;
                             manoI = newManoI;
@@ -145,7 +144,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
                         }
                     }
                     break;
-                
+
                 //comprobamos si el usuario tiene los brazos en cruz y si es asi procederemos a ver si los sube
                 case posturas.Brazos_En_Cruz:
                     //volvemos a ver donde estan las manos del usuario
@@ -153,16 +152,16 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
                     newManoD = esqueleto.Joints[JointType.WristRight];
                     newCodoI = esqueleto.Joints[JointType.ElbowLeft];
                     newCodoD = esqueleto.Joints[JointType.ElbowRight];
-                    
+
                     //comprobamos si el usuario tiene los brazos subidos
-                    if (compararCoordenadas(newCodoD, hombroD, "X") && (compararCoordenadas(newManoD, hombroD,"X")) &&
-                        compararCoordenadas(newCodoI, hombroI, "X") && (compararCoordenadas(newManoI, hombroI, "X")) ) {
+                    if (compararCoordenadas(newCodoD, hombroD, "X") && (compararCoordenadas(newManoD, hombroD, "X")) &&
+                        compararCoordenadas(newCodoI, hombroI, "X") && (compararCoordenadas(newManoI, hombroI, "X"))) {
                         actualizarPostura(posturas.Brazos_Arriba);
                     }
                     else {
                         //si no estamos en la tercera parte del movimiento, comprobamos que se van subiendo los brazos
-                        if(compararCoordenadas(newManoD, manoD, "Y") && (compararCoordenadas(newCodoD, codoD, "Y")) &&
-                            compararCoordenadas(newManoI, manoI, "Y") && (compararCoordenadas(newCodoI, codoI, "Y") ) {
+                        if (compararCoordenadas(newManoD, manoD, "Y") && (compararCoordenadas(newCodoD, codoD, "Y")) &&
+                            compararCoordenadas(newManoI, manoI, "Y") && (compararCoordenadas(newCodoI, codoI, "Y")) {
                             manoD = newManoD;
                             manoI = newManoI;
                             codoD = newCodoD;
@@ -172,9 +171,9 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
                             actualizarPostura(posturas.Mal);
                         }
                     }
-                break;
-              /*  default:
-                    actualizarPostura(posturas.Mal);*/
+                    break;
+                    /*  default:
+                          actualizarPostura(posturas.Mal);*/
             }//end switch
         }//end method
     }//end clasee
