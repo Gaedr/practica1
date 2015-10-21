@@ -32,6 +32,17 @@
 <a id="practica1-ms-kinect-detección-de-posiciones-y-movimientos-básicos" class="anchor" href="#practica1-ms-kinect-detecci%C3%B3n-de-posiciones-y-movimientos-b%C3%A1sicos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Practica1 MS-Kinect Detección de posiciones y movimientos básicos.</h2>
 
 <h3>
+<a id="autores" class="anchor" href="#autores" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autores</h3>
+
+<p>Samuel Peregrina Morillas
+Nieves Victoria Velásquez Díaz</p>
+
+<h3>
+<a id="duración-de-la-práctica" class="anchor" href="#duraci%C3%B3n-de-la-pr%C3%A1ctica" aria-hidden="true"><span class="octicon octicon-link"></span></a>Duración de la práctica.</h3>
+
+<p>Desde 6-Oct-2015 hasta 23-Oct-2015</p>
+
+<h3>
 <a id="descripción-del-problema" class="anchor" href="#descripci%C3%B3n-del-problema" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción del problema.</h3>
 
 <p>Esta primera práctica ha consistido en crear una aplicación que detecta una posición fija y un gesto realizado por un usuario ante la cámara de Kinect.
@@ -44,8 +55,27 @@ Una vez el usuario está listo para comenzar, se le indica el gesto que debe rea
 <a id="descripción-de-la-solución-subapartados-codigo-y-hud" class="anchor" href="#descripci%C3%B3n-de-la-soluci%C3%B3n-subapartados-codigo-y-hud" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción de la solución. (subapartados: codigo y hud)</h3>
 
 <p>A la hora de realizar la aplicación, se ha creado una clase: "Moves.cs"en la que se han declarado:
-    ..*Las variables <em>margenErrorSup</em> y <em>margenErrorInf</em> en las que almacenamos el valor que hemos establecido de margen de error de forma que el usuario no tenga que realizar las acciones con una gran precisión. Este marjen está establecido como el 10% tanto para el superior como para el inferior creando así una franja de seguridad con la que dar un mínimo de movilidad al usuario.
-    ..</p>
+    ··<em>Las variables <em>margenErrorSup</em> y <em>margenErrorInf</em> en las que almacenamos el valor que hemos establecido de margen de error de forma que el usuario no tenga que realizar las acciones con una gran precisión. Este marjen está establecido como el 10% tanto para el superior como para el inferior creando así una franja de seguridad con la que dar un mínimo de movilidad al usuario. Y la variable <em>posturaActual</em> donde se almacena la postura actual del usuario.
+    ---
+    ··</em> Un struct llamado <em>posturas</em> en el que tenemos cuatro estados distintos. Con ellos vamos almacenando la fase del movimiento en el que se encuentra el usuario. Estos pueden ser:
+        ···1.<em>Inicial</em> indicando que el usuario está en la posición inicial.
+        ···2.<em>Brazos_En_Cruz</em>, con esto vemos si se ha llegado a la mitad del movimiento, en el que el usuario tiene los brazos totalmente estirados a la altura de los hombros.
+        ···3.<em>Brazos_Arriba</em> con esto establecemos que el usuario ha llegado a la fase final del movimiento de forma correcta.
+        ···4.<em>Mal</em> en caso de que el usuario se haya equivocado en alguno de los pasos se establecerá que lo ha realizado mal y deberá empezar de nuevo.
+    ---
+    ··<em>El constructor de la clase en el que establecemos el valor predeterminado de <em>margenErrorSup</em> y <em>margenErrorInf</em> a 0.1 como se ha explicado antes, y también establecemos que se parte de que la postura del usuario al principio es <em>Mal</em>.
+    --- 
+    ··</em>Los métodos:
+        ···1.<em>getPostura()</em> este método nos permite consutar la postura actual del usuario.
+        ···2.<em>actualizarPostura(posturas nuevaPostura)</em> con este método actualizamos el valor de la variable <em>posturaActual</em> con el valor pasado: <em>nuevaPostura</em>
+        ···3.<em>compararCoordenadas(Joint a, Joint b, char coord)</em> este método se encarga de, dadas dos partes del cuerpo del usuario (indicadas con los <em>Join</em>, y el eje de coordenadas donde queremos hacer la comprobación, ver si ambas están alineadas. De forma que, tendremos un <em>switch case</em> dependiente de la coordenada donde se realizará la siguiente comprobación:
+        <code>C#
+        case $:
+                if (a.Position.$ &lt; (b.Position.$ * margenErrorSup) &amp;&amp; (a.Position.$ &gt; (b.Position.$ * margenErrorInf)))
+                    respuesta = true;
+        break;
+</code>
+        Una vez comprobado el eje en el que vamos a trabajar, pasaremos a comprobar si el primer elemento a está comprendido entre la franja de b por el margen de error superior e inferior de forma que nos quede <em>posicion de b * margen superior &gt; posicion de a &gt; posicion de b * margen superior</em></p>
 
 <h3>
 <a id="errores-y-aspectos-destacados" class="anchor" href="#errores-y-aspectos-destacados" aria-hidden="true"><span class="octicon octicon-link"></span></a>Errores y aspectos destacados.</h3>
