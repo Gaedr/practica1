@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Practica1 by Gaedr</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Practica1</h1>
+        <h2></h2>
+
+        <section id="downloads">
+          <a href="https://github.com/Gaedr/practica1/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/Gaedr/practica1/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/Gaedr/practica1" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h2>
+<a id="practica1-ms-kinect-detección-de-posiciones-y-movimientos-básicos" class="anchor" href="#practica1-ms-kinect-detecci%C3%B3n-de-posiciones-y-movimientos-b%C3%A1sicos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Practica1 MS-Kinect Detección de posiciones y movimientos básicos.</h2>
+
+<h3>
+<a id="descripción-del-problema" class="anchor" href="#descripci%C3%B3n-del-problema" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción del problema.</h3>
+
+<p>Esta primera práctica ha consistido en crear una aplicación que detecta una posición fija y un gesto realizado por un usuario ante la cámara de Kinect.
+La posición fija escogida ha sido la del usuario de pie y con los brazos a los lados del cuerpo; por otro lado el gesto ha consistido en subir los dos brazos a la vez hasta tenerlos estirados por encima de la cabeza. </p>
+
+<p>Para ello, en primer lugar se le indica al usuario que tiene que estar en un lugar concreto de la habitación, algo alejado de la cámara para que al subir los brazos estos no se salgan de la pantalla dando lugar a error, y tras esto se le especifica la posición que debe tener desde un principio para poder realizar el ejercicio completo.
+Una vez el usuario está listo para comenzar, se le indica el gesto que debe realizar y se va monitorizando durante el tiempo que tarde el usuario en subir los brazos. Si por algún motivo se equivoca o hace algo mal, se le indica y deberá comenzar al realizar el gesto desde el principio. El usuario podrá activar la opción de "Ayuda" siempre que lo vea necesario de forma que se le mostrará como debe realizar el gesto y se le pondrá una guía. También podrá ver el esqueleto creado por la aplicación si así lo desea aunque por defecto esa opción estará desactivada. </p>
+
+<h3>
+<a id="descripción-de-la-solución-subapartados-codigo-y-hud" class="anchor" href="#descripci%C3%B3n-de-la-soluci%C3%B3n-subapartados-codigo-y-hud" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción de la solución. (subapartados: codigo y hud)</h3>
+
+<p>A la hora de realizar la aplicación, se ha creado una clase: "Moves.cs"en la que se han declarado:
+    ..*Las variables <em>margenErrorSup</em> y <em>margenErrorInf</em> en las que almacenamos el valor que hemos establecido de margen de error de forma que el usuario no tenga que realizar las acciones con una gran precisión. Este marjen está establecido como el 10% tanto para el superior como para el inferior creando así una franja de seguridad con la que dar un mínimo de movilidad al usuario.
+    ..</p>
+
+<h3>
+<a id="errores-y-aspectos-destacados" class="anchor" href="#errores-y-aspectos-destacados" aria-hidden="true"><span class="octicon octicon-link"></span></a>Errores y aspectos destacados.</h3>
+
+<h3>
+<a id="lecturas-recomendadas-" class="anchor" href="#lecturas-recomendadas-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lecturas recomendadas. ??</h3>
+
+<h3>
+<a id="bibliografía" class="anchor" href="#bibliograf%C3%ADa" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bibliografía.</h3>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
