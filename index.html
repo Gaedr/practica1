@@ -59,34 +59,71 @@ Una vez el usuario está listo para comenzar, se le indica el gesto que debe rea
 <h3>
 <a id="descripción-de-la-solución-subapartados-codigo-y-hud" class="anchor" href="#descripci%C3%B3n-de-la-soluci%C3%B3n-subapartados-codigo-y-hud" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción de la solución. (subapartados: codigo y hud)</h3>
 
-<p>A la hora de realizar la aplicación, se ha creado una clase: "Moves.cs"en la que se han declarado:
-    ··<em>Las variables <em>margenErrorSup</em> y <em>margenErrorInf</em> en las que almacenamos el valor que hemos establecido de margen de error de forma que el usuario no tenga que realizar las acciones con una gran precisión. Este marjen está establecido como el 10% tanto para el superior como para el inferior creando así una franja de seguridad con la que dar un mínimo de movilidad al usuario. Y la variable <em>posturaActual</em> donde se almacena la postura actual del usuario.
-    ---
-    ··</em> Un struct llamado <em>posturas</em> en el que tenemos cuatro estados distintos. Con ellos vamos almacenando la fase del movimiento en el que se encuentra el usuario. Estos pueden ser:
-        ···1.<em>Inicial</em> indicando que el usuario está en la posición inicial.
-        ···2.<em>Brazos_En_Cruz</em>, con esto vemos si se ha llegado a la mitad del movimiento, en el que el usuario tiene los brazos totalmente estirados a la altura de los hombros.
-        ···3.<em>Brazos_Arriba</em> con esto establecemos que el usuario ha llegado a la fase final del movimiento de forma correcta.
-        ···4.<em>Mal</em> en caso de que el usuario se haya equivocado en alguno de los pasos se establecerá que lo ha realizado mal y deberá empezar de nuevo.
-    ---
-    ··<em>El constructor de la clase en el que establecemos el valor predeterminado de <em>margenErrorSup</em> y <em>margenErrorInf</em> a 0.1 como se ha explicado antes, y también establecemos que se parte de que la postura del usuario al principio es <em>Mal</em>.
-    --- 
-    ··</em>Los métodos:
-        ···1.<em>getPostura()</em> este método nos permite consutar la postura actual del usuario.
-        ···2.<em>actualizarPostura(posturas nuevaPostura)</em> con este método actualizamos el valor de la variable <em>posturaActual</em> con el valor pasado: <em>nuevaPostura</em>
-        ···3.<em>compararCoordenadas(Joint a, Joint b, char coord)</em> este método se encarga de, dadas dos partes del cuerpo del usuario (indicadas con los <em>Join</em>, y el eje de coordenadas donde queremos hacer la comprobación, ver si ambas están alineadas. De forma que, tendremos un <em>switch case</em> dependiente de la coordenada donde se realizará la siguiente comprobación:
-        <code>C#
-        case $:
-                if (a.Position.$ &lt; (b.Position.$ * margenErrorSup) &amp;&amp; (a.Position.$ &gt; (b.Position.$ * margenErrorInf)))
-                    respuesta = true;
-        break;
-</code>
-        Una vez comprobado el eje en el que vamos a trabajar, pasaremos a comprobar si el primer elemento a está comprendido entre la franja de b por el margen de error superior e inferior de forma que nos quede <em>posicion de b * margen superior &gt; posicion de a &gt; posicion de b * margen superior</em></p>
+<p>A la hora de realizar la aplicación, se ha creado una clase: <strong>"Moves.cs"</strong> en la que se han declarado:</p>
+
+<ul>
+<li>Las variables <em>margenErrorSup</em> y <em>margenErrorInf</em> en las que almacenamos el valor que hemos establecido de margen de error de forma que el usuario no tenga que realizar las acciones con una gran precisión. Este marjen está establecido como el 10% tanto para el superior como para el inferior creando así una franja de seguridad con la que dar un mínimo de movilidad al usuario. Y la variable <em>posturaActual</em> donde se almacena la postura actual del usuario.</li>
+</ul>
+
+<hr>
+
+<ul>
+<li>Un struct llamado <em>posturas</em> en el que tenemos cuatro estados distintos. Con ellos vamos almacenando la fase del movimiento en el que se encuentra el usuario. Estos pueden ser:
+
+<ol>
+<li>
+<em>Inicial</em> indicando que el usuario está en la posición inicial.</li>
+<li>
+<em>Brazos_En_Cruz</em>, con esto vemos si se ha llegado a la mitad del movimiento, en el que el usuario tiene los brazos totalmente estirados a la altura de los hombros.</li>
+<li>
+<em>Brazos_Arriba</em> con esto establecemos que el usuario ha llegado a la fase final del movimiento de forma correcta.</li>
+<li>
+<em>Mal</em> en caso de que el usuario se haya equivocado en alguno de los pasos se establecerá que lo ha realizado mal y deberá empezar de nuevo.</li>
+</ol>
+</li>
+</ul>
+
+<hr>
+
+<ul>
+<li>El constructor de la clase en el que establecemos el valor predeterminado de <em>margenErrorSup</em> y <em>margenErrorInf</em> a 0.1 como se ha explicado antes, y también establecemos que se parte de que la postura del usuario al principio es <em>Mal</em>.</li>
+</ul>
+
+<hr>
+
+<ul>
+<li>
+<p>Los métodos:</p>
+
+<ol>
+<li>
+<strong>getPostura()</strong> este método nos permite consutar la postura actual del usuario.</li>
+<li>
+<strong>actualizarPostura(posturas nuevaPostura)</strong> con este método actualizamos el valor de la variable <em>posturaActual</em> con el valor pasado: <em>nuevaPostura</em>
+</li>
+<li>
+<strong>compararCoordenadas(Joint a, Joint b, char coord)</strong> este método se encarga de, dadas dos partes del cuerpo del usuario (indicadas con los <em>Join</em>, y el eje de coordenadas donde queremos hacer la comprobación, ver si ambas están alineadas. De forma que, tendremos un <em>switch case</em> dependiente de la coordenada donde se realizará la siguiente comprobación:</li>
+</ol>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">case</span> $:
+    <span class="pl-k">if</span> (a.Position.$ &lt; (b.Position.$ * margenErrorSup) &amp;&amp; (a.Position.$ &gt; (b.Position.$ * margenErrorInf)))
+        respuesta = <span class="pl-c1">true</span>;
+<span class="pl-k">break</span>;</pre></div>
+
+<p>Una vez comprobado el eje en el que vamos a trabajar, pasaremos a comprobar si el primer elemento a está comprendido entre la franja de b por el margen de error superior e inferior de forma que nos quede <em>posicion de b * margen superior &gt; posicion de a &gt; posicion de b * margen superior</em>, en caso de que se cumpla la condición, establecerá la variable <em>respuesta</em> a <em>true</em>. Variable establecida por defecto a <em>false</em>. 
+Como la comprobación es la misma en los tres casos del <em>switch</em> para la explicación se ha puesto un ejemplo genérico, de forma que en el caso de cada eje sustituiremos en '$' por dicho eje, 'X', 'Y' y 'Z'. El método devolverá si están alineados (true) o no (false).
+4. <strong>estadoReposo(Skeleton esqueleto)</strong> con este método comprobamos que el usuario se encuentra en estado de reposo, para ello creamos 6 variables de forma que cada una corresponde a una de las distintas partes del cuerpo que vamos a supervisar durante el movimiento; estas son los hombros, los codos y las muñecas, tanto las del lado derecho como las del izquierdo. Para obtener esta información necesitamos acceder a la clase Skeleton de forma que podamos consultar los datos del esqueleto proporcionados por el Kinect. Una vez las hemos creado pasamos a comprobar la postura, de forma que primeramente veremos que tenga los hombros alineados, para ello nos apoyaremos en el método anterior, si estan correctos, pasaremos a comprobar que los codos estén alineados en el eje Y con su respectivos hombros, y si estan correctos se procederá a hacer lo mismo con las muñecas. Si todo estaba correcto se actualiza el valor de <em>posturaActual</em> a <em>Inicial</em>, y en caso de que alguno de los puntos no este correctamente alineado se establecerá a <em>Mal</em>.
+5. <strong>movimiento(SkeletonBasics esqueleto)</strong> este método tiene un funcionamiento similar al anterior, pero en este caso, nos encargamos de monitorizar el gesto que realiza el usuario para asegurarnos de que lo está haciendo correctamente, como necesitamos saber las coordenadas de las distintas partes a tener en cuenta, debemos pasarle al algoritmo de nuevo el esqueleto mediante la clase <em>SkeletonBasics</em>, además de los seis puntos usados previamente, necesitamos cuatro más, estos son <em>newManoI</em>, <em>newManoD</em>, <em>newCodoI</em> y <em>newCodoD</em>, en estas cuatro nuevas variables guardaremos la nueva posición de las manos o codos para poder compararlas con las anteriores y asegurar el correcto comportamiento. Para esto tendremos un <em>switch case</em> donde dependiendo de la fase del movimiento realizaremos unas comprobaciones u otras.</p>
+
+<ul>
+<li>Primero confirmaremos que el usuario esté en la posición inicial, de ser así este comenzará el gesto, de forma que tomaremos la nueva posición de las manos y veremos si están por encima de la posición anterior o no. En caso de que estén por encima veremos si el usuario ya tiene los brazos en forma de cruz, de ser así actualizaremos el valor de <em>posturalActual</em> a <em>Brazos_en_cruz</em>, si no los ha subido aún, comprobamos que, al menos, los está subiendo mediante el método <em>compararCoordenadas</em>, si los está subiendo actualizamos el valor de las coordenadas de las manos, pero si no las está subiendo o ha realizado un movimiento distinto, diremos que está realizando mal el gesto y deberá comenzar de nuevo.</li>
+<li>EN el segundo caso partiremos de que el usuario  ya tiene los brazos en cruz y el procedmiento será igual que el anterior, tomará las nuevas posiciones de los brazos y los codos y comprobará si ya los tiene por encima de la cabeza. De ser así actualizará la variable <em>posturaActual</em> a <em>Brazos_Arriba</em>, de no ser así veremos si los está subiendo, de forma que compararemos la nueva posición de los codos con la anterior y en caso de que haya aumentado actualizaremos los valores de las manos y los codos. Si no se cumple nada de lo anterior el usuario no está realizando el gesto correctamente por lo que se le indicará teniendo que comenzar el movimiento de nuevo.</li>
+</ul>
+</li>
+</ul>
 
 <h3>
 <a id="errores-y-aspectos-destacados" class="anchor" href="#errores-y-aspectos-destacados" aria-hidden="true"><span class="octicon octicon-link"></span></a>Errores y aspectos destacados.</h3>
-
-<h3>
-<a id="lecturas-recomendadas-" class="anchor" href="#lecturas-recomendadas-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lecturas recomendadas. ??</h3>
 
 <h3>
 <a id="bibliografía" class="anchor" href="#bibliograf%C3%ADa" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bibliografía.</h3>
