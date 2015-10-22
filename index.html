@@ -32,7 +32,10 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h2>
-<a id="practica1-ms-kinect-detección-de-posiciones-y-movimientos-básicos" class="anchor" href="#practica1-ms-kinect-detecci%C3%B3n-de-posiciones-y-movimientos-b%C3%A1sicos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Practica1 MS-Kinect Detección de posiciones y movimientos básicos.</h2>
+<a id="practica1" class="anchor" href="#practica1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Practica1</h2>
+
+<h2>
+<a id="ms-kinect---detección-de-posiciones-y-movimientos-básicos" class="anchor" href="#ms-kinect---detecci%C3%B3n-de-posiciones-y-movimientos-b%C3%A1sicos" aria-hidden="true"><span class="octicon octicon-link"></span></a>MS-Kinect - Detección de posiciones y movimientos básicos.</h2>
 
 <h3>
 <a id="autores" class="anchor" href="#autores" aria-hidden="true"><span class="octicon octicon-link"></span></a>Autores</h3>
@@ -57,7 +60,7 @@ La posición fija escogida ha sido la del usuario de pie y con los brazos a los 
 Una vez el usuario está listo para comenzar, se le indica el gesto que debe realizar y se va monitorizando durante el tiempo que tarde el usuario en subir los brazos. Si por algún motivo se equivoca o hace algo mal, se le indica y deberá comenzar al realizar el gesto desde el principio. El usuario podrá activar la opción de "Ayuda" siempre que lo vea necesario de forma que se le mostrará como debe realizar el gesto y se le pondrá una guía. También podrá ver el esqueleto creado por la aplicación si así lo desea aunque por defecto esa opción estará desactivada. </p>
 
 <h3>
-<a id="descripción-de-la-solución-subapartados-codigo-y-hud" class="anchor" href="#descripci%C3%B3n-de-la-soluci%C3%B3n-subapartados-codigo-y-hud" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción de la solución. (subapartados: codigo y hud)</h3>
+<a id="descripción-de-la-solución" class="anchor" href="#descripci%C3%B3n-de-la-soluci%C3%B3n" aria-hidden="true"><span class="octicon octicon-link"></span></a>Descripción de la solución.</h3>
 
 <p>A la hora de realizar la aplicación, se ha creado una clase: <strong>"Moves.cs"</strong> en la que se han declarado:</p>
 
@@ -102,23 +105,27 @@ Una vez el usuario está listo para comenzar, se le indica el gesto que debe rea
 <strong>actualizarPostura(posturas nuevaPostura)</strong> con este método actualizamos el valor de la variable <em>posturaActual</em> con el valor pasado: <em>nuevaPostura</em>
 </li>
 <li>
-<strong>compararCoordenadas(Joint a, Joint b, char coord)</strong> este método se encarga de, dadas dos partes del cuerpo del usuario (indicadas con los <em>Join</em>, y el eje de coordenadas donde queremos hacer la comprobación, ver si ambas están alineadas. De forma que, tendremos un <em>switch case</em> dependiente de la coordenada donde se realizará la siguiente comprobación:</li>
-</ol>
+<p><strong>compararCoordenadas(Joint a, Joint b, char coord)</strong> este método se encarga de, dadas dos partes del cuerpo del usuario (indicadas con los <em>Join</em>, y el eje de coordenadas donde queremos hacer la comprobación, ver si ambas están alineadas. De forma que, tendremos un <em>switch case</em> dependiente de la coordenada donde se realizará la siguiente comprobación:</p>
 
 <div class="highlight highlight-source-cs"><pre><span class="pl-k">case</span> $:
-    <span class="pl-k">if</span> (a.Position.$ &lt; (b.Position.$ * margenErrorSup) &amp;&amp; (a.Position.$ &gt; (b.Position.$ * margenErrorInf)))
-        respuesta = <span class="pl-c1">true</span>;
+  <span class="pl-k">if</span> (a.Position.$ &lt; (b.Position.$ * margenErrorSup) &amp;&amp; (a.Position.$ &gt; (b.Position.$ * margenErrorInf)))
+      respuesta = <span class="pl-c1">true</span>;
 <span class="pl-k">break</span>;</pre></div>
 
 <p>Una vez comprobado el eje en el que vamos a trabajar, pasaremos a comprobar si el primer elemento a está comprendido entre la franja de b por el margen de error superior e inferior de forma que nos quede <em>posicion de b * margen superior &gt; posicion de a &gt; posicion de b * margen superior</em>, en caso de que se cumpla la condición, establecerá la variable <em>respuesta</em> a <em>true</em>. Variable establecida por defecto a <em>false</em>. 
-Como la comprobación es la misma en los tres casos del <em>switch</em> para la explicación se ha puesto un ejemplo genérico, de forma que en el caso de cada eje sustituiremos en '$' por dicho eje, 'X', 'Y' y 'Z'. El método devolverá si están alineados (true) o no (false).
-4. <strong>estadoReposo(Skeleton esqueleto)</strong> con este método comprobamos que el usuario se encuentra en estado de reposo, para ello creamos 6 variables de forma que cada una corresponde a una de las distintas partes del cuerpo que vamos a supervisar durante el movimiento; estas son los hombros, los codos y las muñecas, tanto las del lado derecho como las del izquierdo. Para obtener esta información necesitamos acceder a la clase Skeleton de forma que podamos consultar los datos del esqueleto proporcionados por el Kinect. Una vez las hemos creado pasamos a comprobar la postura, de forma que primeramente veremos que tenga los hombros alineados, para ello nos apoyaremos en el método anterior, si estan correctos, pasaremos a comprobar que los codos estén alineados en el eje Y con su respectivos hombros, y si estan correctos se procederá a hacer lo mismo con las muñecas. Si todo estaba correcto se actualiza el valor de <em>posturaActual</em> a <em>Inicial</em>, y en caso de que alguno de los puntos no este correctamente alineado se establecerá a <em>Mal</em>.
-5. <strong>movimiento(SkeletonBasics esqueleto)</strong> este método tiene un funcionamiento similar al anterior, pero en este caso, nos encargamos de monitorizar el gesto que realiza el usuario para asegurarnos de que lo está haciendo correctamente, como necesitamos saber las coordenadas de las distintas partes a tener en cuenta, debemos pasarle al algoritmo de nuevo el esqueleto mediante la clase <em>SkeletonBasics</em>, además de los seis puntos usados previamente, necesitamos cuatro más, estos son <em>newManoI</em>, <em>newManoD</em>, <em>newCodoI</em> y <em>newCodoD</em>, en estas cuatro nuevas variables guardaremos la nueva posición de las manos o codos para poder compararlas con las anteriores y asegurar el correcto comportamiento. Para esto tendremos un <em>switch case</em> donde dependiendo de la fase del movimiento realizaremos unas comprobaciones u otras.</p>
+Como la comprobación es la misma en los tres casos del <em>switch</em> para la explicación se ha puesto un ejemplo genérico, de forma que en el caso de cada eje sustituiremos en '$' por dicho eje, 'X', 'Y' y 'Z'. El método devolverá si están alineados (true) o no (false).</p>
+</li>
+<li>
+<strong>estadoReposo(Skeleton esqueleto)</strong> con este método comprobamos que el usuario se encuentra en estado de reposo, para ello creamos 6 variables de forma que cada una corresponde a una de las distintas partes del cuerpo que vamos a supervisar durante el movimiento; estas son los hombros, los codos y las muñecas, tanto las del lado derecho como las del izquierdo. Para obtener esta información necesitamos acceder a la clase Skeleton de forma que podamos consultar los datos del esqueleto proporcionados por el Kinect. Una vez las hemos creado pasamos a comprobar la postura, de forma que primeramente veremos que tenga los hombros alineados, para ello nos apoyaremos en el método anterior, si estan correctos, pasaremos a comprobar que los codos estén alineados en el eje Y con su respectivos hombros, y si estan correctos se procederá a hacer lo mismo con las muñecas. Si todo estaba correcto se actualiza el valor de <em>posturaActual</em> a <em>Inicial</em>, y en caso de que alguno de los puntos no este correctamente alineado se establecerá a <em>Mal</em>.</li>
+<li>
+<p><strong>movimiento(SkeletonBasics esqueleto)</strong> este método tiene un funcionamiento similar al anterior, pero en este caso, nos encargamos de monitorizar el gesto que realiza el usuario para asegurarnos de que lo está haciendo correctamente, como necesitamos saber las coordenadas de las distintas partes a tener en cuenta, debemos pasarle al algoritmo de nuevo el esqueleto mediante la clase <em>SkeletonBasics</em>, además de los seis puntos usados previamente, necesitamos cuatro más, estos son <em>newManoI</em>, <em>newManoD</em>, <em>newCodoI</em> y <em>newCodoD</em>, en estas cuatro nuevas variables guardaremos la nueva posición de las manos o codos para poder compararlas con las anteriores y asegurar el correcto comportamiento. Para esto tendremos un <em>switch case</em> donde dependiendo de la fase del movimiento realizaremos unas comprobaciones u otras.</p>
 
 <ul>
 <li>Primero confirmaremos que el usuario esté en la posición inicial, de ser así este comenzará el gesto, de forma que tomaremos la nueva posición de las manos y veremos si están por encima de la posición anterior o no. En caso de que estén por encima veremos si el usuario ya tiene los brazos en forma de cruz, de ser así actualizaremos el valor de <em>posturalActual</em> a <em>Brazos_en_cruz</em>, si no los ha subido aún, comprobamos que, al menos, los está subiendo mediante el método <em>compararCoordenadas</em>, si los está subiendo actualizamos el valor de las coordenadas de las manos, pero si no las está subiendo o ha realizado un movimiento distinto, diremos que está realizando mal el gesto y deberá comenzar de nuevo.</li>
-<li>EN el segundo caso partiremos de que el usuario  ya tiene los brazos en cruz y el procedmiento será igual que el anterior, tomará las nuevas posiciones de los brazos y los codos y comprobará si ya los tiene por encima de la cabeza. De ser así actualizará la variable <em>posturaActual</em> a <em>Brazos_Arriba</em>, de no ser así veremos si los está subiendo, de forma que compararemos la nueva posición de los codos con la anterior y en caso de que haya aumentado actualizaremos los valores de las manos y los codos. Si no se cumple nada de lo anterior el usuario no está realizando el gesto correctamente por lo que se le indicará teniendo que comenzar el movimiento de nuevo.</li>
+<li>En el segundo caso partiremos de que el usuario  ya tiene los brazos en cruz y el procedmiento será igual que el anterior, tomará las nuevas posiciones de los brazos y los codos y comprobará si ya los tiene por encima de la cabeza. De ser así actualizará la variable <em>posturaActual</em> a <em>Brazos_Arriba</em>, de no ser así veremos si los está subiendo, de forma que compararemos la nueva posición de los codos con la anterior y en caso de que haya aumentado actualizaremos los valores de las manos y los codos. Si no se cumple nada de lo anterior el usuario no está realizando el gesto correctamente por lo que se le indicará teniendo que comenzar el movimiento de nuevo.</li>
 </ul>
+</li>
+</ol>
 </li>
 </ul>
 
