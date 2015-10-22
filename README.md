@@ -57,5 +57,6 @@ A la hora de realizar la aplicación, se ha creado una clase: **"Moves.cs"** en 
 
 
 ### Errores y aspectos destacados.
+A la hora de calcular si las extremidades están correctamente alineadas, debemos de trabajar con el valor absoluto. Esto se debe a que, aunque con el lado derecho del cuerpo no es necesario, con el lado izquierdo se obtienen valores negativos, lo que induce a error y no es capaz de ver si los miembros están alineados o no; es por eso que debemos usar valor absoluto, de modo que se evita dicho error y se asegura de que se realizan las comprobaciones de la forma correcta.
 
 ### Bibliografía.
