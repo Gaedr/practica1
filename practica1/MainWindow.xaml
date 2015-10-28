@@ -15,6 +15,7 @@
             <Image x:Name="ColorImage" HorizontalAlignment="Center" Margin="0,0,0,-102" VerticalAlignment="Top"/>
             <Image x:Name="SkeletalImage" HorizontalAlignment="Center" Margin="0,0,0,-102" VerticalAlignment="Top" d:IsHidden="True"/>
             <Canvas Background="Transparent" Margin="0,0,0,-102" d:IsHidden="True"/>
+            <Label x:Name="lbEstados" Content="Póngase en estado de Reposo" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Margin="0,501,10,0" VerticalAlignment="Top" Height="44" Width="723" FontSize="26.667" FontWeight="Bold" Foreground="#FFFF452F" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}"/>
         </Grid>
         <StatusBar Grid.Row="3" HorizontalAlignment="Stretch" x:Name="statusBar" VerticalAlignment="Bottom" Background="White">
             <StatusBarItem Padding="0 0 0 10">

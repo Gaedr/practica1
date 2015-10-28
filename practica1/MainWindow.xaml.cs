@@ -99,11 +99,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
         /// <summary>
         /// Objeto que controlara la correcta ejecucion de los movimientos
         /// </summary>
-        //private fitness mov;
-
-        private Point hombroIzqMov;
-        private Point manoIzqMov;
-
+        private Moves mov;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -111,7 +107,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
         public MainWindow()
         {
             InitializeComponent();
-            //mov = new fitness();
+            mov = new Moves();
         }
 
         /// <summary>
@@ -268,9 +264,9 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
 
                         if (skel.TrackingState == SkeletonTrackingState.Tracked)
                         {
-                            if(manoIzqMov == null)manoIzqMov = SkeletonPointToScreen(skel.Joints[JointType.WristLeft].Position);
-                            if (hombroIzqMov == null) manoIzqMov = SkeletonPointToScreen(skel.Joints[JointType.ShoulderLeft].Position);
+                            mov.movimiento(skel);
                             drawMovementRoute(skel, dc);
+                            
                                 
                             //if (mov.deteccion(skel))
                             //{
@@ -363,6 +359,25 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
             //Arcos.DrawArc(drawingContext, new Pen(Brushes.Blue, 6), inferredJointBrush, new Rect(hombroIzq.X - 150, hombroIzq.Y - 70, 150, 100), 200, 140);
             //Arcos.DrawArc(drawingContext, new Pen(Brushes.Blue, 6), inferredJointBrush, new Rect(hombroDer.X, hombroDer.Y - 70, 150, 100), 200, 140);
 
+            switch (mov.getPostura()) {
+                case Moves.posturas.Inicial:
+                    this.lbEstados.Foreground = Brushes.Blue;
+                    this.lbEstados.Content = "Levante los brazos hasta estar en cruz";
+                    break;
+                case Moves.posturas.Brazos_En_Cruz:
+                    this.lbEstados.Foreground = Brushes.Blue;
+                    this.lbEstados.Content = "Continúe el movimiento de los brazos hasta arriba";
+                    break;
+                case Moves.posturas.Brazos_Arriba:
+                    this.lbEstados.Foreground = Brushes.Green;
+                    this.lbEstados.Content = "¡¡Perfecto!!";
+                    break;
+                default:
+                    this.lbEstados.Foreground = Brushes.Red;
+                    this.lbEstados.Content = "Póngase en estado de Reposo";
+                    break;
+
+            }
             drawingContext.DrawEllipse(Brushes.Yellow, null, codoIzq, 10, 10);
             drawingContext.DrawEllipse(Brushes.Yellow, null, codoDer, 10, 10);
 
@@ -372,14 +387,8 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
             drawingContext.DrawEllipse(Brushes.Yellow, null, manoIzq, 10, 10);
             drawingContext.DrawEllipse(Brushes.Yellow, null, manoDer, 10, 10);
 
-            drawingContext.DrawEllipse(Brushes.Blue, null, manoIzqMov, 10, 10);
-            drawingContext.DrawEllipse(Brushes.Blue, null, hombroIzqMov, 10, 10);
-            //drawingContext.DrawEllipse(Brushes.Blue, null, new Point(manoIzq.X - 50, hombroIzq.Y), 10, 10);
-            //drawingContext.DrawEllipse(Brushes.Blue, null, new Point(hombroIzq.X, hombroIzq.Y - manoIzq.Y), 10, 10);
-            //drawingContext.DrawEllipse(Brushes.AliceBlue, null, manoDer, 10, 10);
-
-            //drawingContext.DrawEllipse(Brushes.Yellow, null, new Point(codoIzq.X + 80, codoIzq.Y), 10, 10);
-            //drawingContext.DrawEllipse(Brushes.Yellow, null, new Point(codoDer.X -80, codoDer.Y), 10, 10);
+            drawingContext.DrawEllipse(Brushes.Blue, null, mov.getManoIzqInicial(), 10, 10);
+            drawingContext.DrawEllipse(Brushes.Blue, null, mov.getManoIzqFinal(skeleton), 10, 10);
         }   
 }
 }
