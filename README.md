@@ -44,7 +44,7 @@ A la hora de realizar la aplicación, se ha creado una clase: **"Moves.cs"** en 
     3. **getManoIzqInicial()** este método nos devolverá las coordenadas de la mano izquierda a partir de la postura _Inicio_.
     4. **getManoIzqFinal(Skeleton esqueleto)** este método funciona igual que _getManoDerFinal(Skeleton esqueleto)_ pero para el brazo inzquierdo.
     5. **getPostura()** este método nos permite consutar la postura actual del usuario.
-    6. **actualizarPostura(posturas nuevaPostura)** con este método actualizamos el valor de la variable _posturaActual_ con el valor pasado: _nuevaPostura_
+    6. **actualizarPostura(posturas nuevaPostura, Skeleton esqueleto)** con este método actualizamos el valor de la variable _posturaActual_ con el valor pasado: _nuevaPostura_: también actualizaremos los valores de _manoDerAct_, _manoIzqAct_, _codoDerAct_ y _codoIzqAct_ de forma que almacenaremos las nuevas coordenadas de dichos puntos en caso de que se haya realizado un movimiento, para comprobaciones posteriores. En el caso de que el usuario se encuentre en la posicion actual, sólo actualizará los valores de ambas manos. 
     7. **compararCoordenadas(Joint a, Joint b, char coord)** este método se encarga de, dadas dos partes del cuerpo del usuario (indicadas con los *Join*, y el eje de coordenadas donde queremos hacer la comprobación, ver si ambas están alineadas. De forma que, tendremos un *switch case* dependiente de la coordenada donde se realizará la siguiente comprobación:
     
      ```C#
