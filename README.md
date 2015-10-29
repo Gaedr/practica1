@@ -39,6 +39,8 @@ A la hora de realizar la aplicación, se ha creado una clase: **"Moves.cs"** en 
 --- 
     
 * Los métodos:
+    1. **getManoDerInicial()** este método nos devolverá las coordenadas de la mano derecha a partir de la postura _Inicio_.
+    2. **getManoDerFinal(Skeleton esqueleto)** a partir de este método calcularemos donde debe terminar la mano derecha para que se considere el ejercicio como correcto.
     1. **getPostura()** este método nos permite consutar la postura actual del usuario.
     2. **actualizarPostura(posturas nuevaPostura)** con este método actualizamos el valor de la variable _posturaActual_ con el valor pasado: _nuevaPostura_
     3. **compararCoordenadas(Joint a, Joint b, char coord)** este método se encarga de, dadas dos partes del cuerpo del usuario (indicadas con los *Join*, y el eje de coordenadas donde queremos hacer la comprobación, ver si ambas están alineadas. De forma que, tendremos un *switch case* dependiente de la coordenada donde se realizará la siguiente comprobación:
