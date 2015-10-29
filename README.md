@@ -6,7 +6,7 @@
 * Nieves Victoria Velásquez Díaz
 
 ### Duración de la práctica.
-Desde 6-Oct-2015 hasta 23-Oct-2015
+Desde 6-Oct-2015 hasta 30-Oct-2015
 
 ### Descripción del problema.
 
@@ -19,7 +19,10 @@ Una vez el usuario está listo para comenzar, se le indica el gesto que debe rea
 ### Descripción de la solución.
 
 A la hora de realizar la aplicación, se ha creado una clase: **"Moves.cs"** en la que se han declarado:
-* Las variables _margenErrorSup_ y _margenErrorInf_ en las que almacenamos el valor que hemos establecido de margen de error de forma que el usuario no tenga que realizar las acciones con una gran precisión. Este marjen está establecido como el 10% tanto para el superior como para el inferior creando así una franja de seguridad con la que dar un mínimo de movilidad al usuario. Y la variable _posturaActual_ donde se almacena la postura actual del usuario.
+* Las variables _margenErrorSup_ y _margenErrorInf_ en las que almacenamos el valor que hemos establecido de margen de error de forma que el usuario no tenga que realizar las acciones con una gran precisión. Este marjen está establecido como el 10% tanto para el superior como para el inferior creando así una franja de seguridad con la que dar un mínimo de movilidad al usuario. 
+* La variable _posturaActual_ de tipon enum, donde se almacena la postura actual del usuario.
+* Las variables _manoIzqIni_ y _manoDerIni_ donde se almacenan las coordenadas de ambas manos a partir de la postura inicial.
+*Las variables _manoIzqAct_, _manoDerAct_, _codoIzqAct_ y _codoDerAct_ donde almacenamos las coordenadas de la última posición tomada.
 
 ---
     
