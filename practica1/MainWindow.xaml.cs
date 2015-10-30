@@ -266,22 +266,6 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
                         {
                             mov.movimiento(skel);
                             drawMovementRoute(skel, dc);
-                            
-                                
-                            //if (mov.deteccion(skel))
-                            //{
-
-                            //    solucionP.Foreground = Brushes.Green;
-                            //    pintaRuta(skel, dc);
-                            //    trackedBonePen = new Pen(Brushes.Green, 6);
-                            //}
-                            //else
-                            //{
-                            //    solucionP.Foreground = Brushes.Red;
-                            //    trackedBonePen = new Pen(Brushes.Red, 6);
-                            //}
-                            //solucionP.Content = mov.getEstado();
-
                         }
                         else if (skel.TrackingState == SkeletonTrackingState.PositionOnly)
                         {
@@ -334,61 +318,44 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics{
             return new Point(depthPoint.X, depthPoint.Y);
         }
 
-        /// <summary>
-        /// Handles the checking or unchecking of the seated mode combo box
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
-        private void CheckBoxSeatedModeChanged(object sender, RoutedEventArgs e)
-        {
-            if (null != this.sensor)
-            {
-            
-            }
-        }
-
         private void drawMovementRoute(Skeleton skeleton, DrawingContext drawingContext) {
-            Point codoIzq = SkeletonPointToScreen(skeleton.Joints[JointType.ElbowLeft].Position);
-            Point codoDer = SkeletonPointToScreen(skeleton.Joints[JointType.ElbowRight].Position);
             Point hombroIzq = SkeletonPointToScreen(skeleton.Joints[JointType.ShoulderLeft].Position);
             Point hombroDer = SkeletonPointToScreen(skeleton.Joints[JointType.ShoulderRight].Position);
-            Point manoIzq = SkeletonPointToScreen(skeleton.Joints[JointType.WristLeft].Position);
-            Point manoDer = SkeletonPointToScreen(skeleton.Joints[JointType.WristRight].Position);
-
-            //Arcos.DrawArc(drawingContext, new Pen(Brushes.Blue, 6), inferredJointBrush, new Rect(manoIzq.X , manoIzq.Y, 50, 200), 200, 300);
-            //Arcos.DrawArc(drawingContext, new Pen(Brushes.Blue, 6), inferredJointBrush, new Rect(hombroIzq.X - 150, hombroIzq.Y - 70, 150, 100), 200, 140);
-            //Arcos.DrawArc(drawingContext, new Pen(Brushes.Blue, 6), inferredJointBrush, new Rect(hombroDer.X, hombroDer.Y - 70, 150, 100), 200, 140);
 
             switch (mov.getPostura()) {
                 case Moves.posturas.Inicial:
                     this.lbEstados.Foreground = Brushes.Blue;
                     this.lbEstados.Content = "Levante los brazos hasta estar en cruz";
-                    break;
+                    //dibujo pos manos en cruz
+                    drawingContext.DrawEllipse(Brushes.Blue, null, new Point(hombroIzq.X + (hombroIzq.Y - Math.Abs(mov.getManoIzqInicial().Y)), hombroIzq.Y), 10, 10);
+                    drawingContext.DrawEllipse(Brushes.Blue, null, new Point(hombroDer.X - (hombroDer.Y - Math.Abs(mov.getManoDerInicial().Y)), hombroDer.Y), 10, 10);
+                break;
                 case Moves.posturas.Brazos_En_Cruz:
                     this.lbEstados.Foreground = Brushes.Blue;
                     this.lbEstados.Content = "Continúe el movimiento de los brazos hasta arriba";
-                    break;
+                    //Meta conseguida brazos en cruz
+                    drawingContext.DrawEllipse(Brushes.Green, null, new Point(hombroIzq.X + (hombroIzq.Y - Math.Abs(mov.getManoIzqInicial().Y)), hombroIzq.Y), 15, 15);
+                    drawingContext.DrawEllipse(Brushes.Green, null, new Point(hombroDer.X - (hombroDer.Y - Math.Abs(mov.getManoDerInicial().Y)), hombroDer.Y), 15, 15);
+                    //Marcamos el siguiente punto
+                    drawingContext.DrawEllipse(Brushes.Blue, null, new Point(hombroIzq.X , hombroIzq.Y - Math.Abs(hombroIzq.Y - (mov.getManoIzqInicial().Y)) +10), 10, 10);
+                    drawingContext.DrawEllipse(Brushes.Blue, null, new Point(hombroDer.X , hombroDer.Y - Math.Abs(hombroIzq.Y - (mov.getManoIzqInicial().Y)) +10), 10, 10);
+                break;
                 case Moves.posturas.Brazos_Arriba:
                     this.lbEstados.Foreground = Brushes.Green;
                     this.lbEstados.Content = "¡¡Perfecto!!";
-                    break;
-                default:
+                    //Meta conseguida brazos en cruz
+                    drawingContext.DrawEllipse(Brushes.Green, null, new Point(hombroIzq.X + (hombroIzq.Y - Math.Abs(mov.getManoIzqInicial().Y)), hombroIzq.Y), 15, 15);
+                    drawingContext.DrawEllipse(Brushes.Green, null, new Point(hombroDer.X - (hombroDer.Y - Math.Abs(mov.getManoDerInicial().Y)), hombroDer.Y), 15, 15);
+                    //Meta conseguida brazos arriba
+                    drawingContext.DrawEllipse(Brushes.Green, null, new Point(hombroIzq.X, hombroIzq.Y - Math.Abs(hombroIzq.Y - Math.Abs(mov.getManoIzqInicial().Y)) +10), 15, 15);
+                    drawingContext.DrawEllipse(Brushes.Green, null, new Point(hombroDer.X, hombroDer.Y - Math.Abs(hombroIzq.Y - Math.Abs(mov.getManoIzqInicial().Y)) +10), 15, 15);
+                break;
+                case Moves.posturas.Mal:
                     this.lbEstados.Foreground = Brushes.Red;
                     this.lbEstados.Content = "Póngase en estado de Reposo";
                     break;
 
-            }
-            drawingContext.DrawEllipse(Brushes.Yellow, null, codoIzq, 10, 10);
-            drawingContext.DrawEllipse(Brushes.Yellow, null, codoDer, 10, 10);
-
-            drawingContext.DrawEllipse(Brushes.Yellow, null, hombroIzq, 10, 10);
-            drawingContext.DrawEllipse(Brushes.Yellow, null, hombroDer, 10, 10);
-
-            drawingContext.DrawEllipse(Brushes.Yellow, null, manoIzq, 10, 10);
-            drawingContext.DrawEllipse(Brushes.Yellow, null, manoDer, 10, 10);
-
-            drawingContext.DrawEllipse(Brushes.Blue, null, mov.getManoIzqInicial(), 10, 10);
-            drawingContext.DrawEllipse(Brushes.Blue, null, mov.getManoIzqFinal(skeleton), 10, 10);
+            }           
         }   
 }
 }
